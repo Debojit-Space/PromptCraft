@@ -1,0 +1,7 @@
+Scoring
+
+Accuracy: Exact match (binary pass/fail with diff highlight).
+
+Efficiency: Fewer tokens, fewer attempts, fewer hints used.
+
+Creativity: Novel indirection (new attributes, clever constraints).

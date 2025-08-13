@@ -1,0 +1,148 @@
+{
+    "hints": [
+        {
+            "id": 1,
+            "target": "Paris",
+            "H1": "Name the capital city of a Western European country known for the Eiffel Tower.",
+            "H2": "Output a single proper noun; no punctuation or extra words.",
+            "H3": "Ensure the first letter is uppercase; nothing else should be printed."
+        },
+        {
+            "id": 2,
+            "target": "apple",
+            "H1": "Think of a common orchard fruit often used in pies.",
+            "H2": "Output a single lowercase word; no punctuation.",
+            "H3": "Don't pluralize; one word only."
+        },
+        {
+            "id": 3,
+            "target": "Mount Everest",
+            "H1": "The world's tallest mountain above sea level on the Nepal–China border.",
+            "H2": "Output a two-word proper noun; correct capitalization.",
+            "H3": "No extra descriptors like \"the\" or \"mountain.\""
+        },
+        {
+            "id": 4,
+            "target": "open the door",
+            "H1": "A three-word instruction to allow entry through a hinged barrier.",
+            "H2": "All lowercase; no punctuation.",
+            "H3": "Ensure exactly two spaces (one between each word) and correct word order."
+        },
+        {
+            "id": 5,
+            "target": "Let's go!",
+            "H1": "A short exclamation urging immediate action.",
+            "H2": "Two words plus an exclamation; include the apostrophe in the first word.",
+            "H3": "Pay attention to capitalization and the final \"!\"."
+        },
+        {
+            "id": 6,
+            "target": "C@t-5!",
+            "H1": "A 6-character sequence mixing letter, symbols, digit, and punctuation.",
+            "H2": "Order matters: uppercase letter, at symbol, lowercase letter, hyphen, digit, exclamation.",
+            "H3": "No spaces or extra characters."
+        },
+        {
+            "id": 7,
+            "target": "12:34 PM",
+            "H1": "A mid-day time in 12-hour format with meridiem.",
+            "H2": "Two digits, colon, two digits, space, uppercase meridiem.",
+            "H3": "Don't add words like \"at\" or periods in meridiem."
+        },
+        {
+            "id": 8,
+            "target": "2025-08-10",
+            "H1": "ISO date format for August 10th, 2025.",
+            "H2": "YYYY-MM-DD; use leading zeros for month and day.",
+            "H3": "No spaces or slashes."
+        },
+        {
+            "id": 9,
+            "target": "\"hello\"",
+            "H1": "A greeting enclosed in double quotes.",
+            "H2": "Lowercase inside; use straight ASCII quotes.",
+            "H3": "No extra spaces inside or outside the quotes."
+        },
+        {
+            "id": 10,
+            "target": "A—B",
+            "H1": "Two capital letters separated by a long dash.",
+            "H2": "Use an em dash (—), not a hyphen (-).",
+            "H3": "No spaces around the dash."
+        },
+        {
+            "id": 11,
+            "target": "São Paulo",
+            "H1": "The largest Brazilian city; includes an accented character.",
+            "H2": "Correct capitalization and accent mark on the first word.",
+            "H3": "Ensure the tilde appears above the \"a\" (ã)."
+        },
+        {
+            "id": 12,
+            "target": "3.14159",
+            "H1": "A common decimal approximation of a mathematical constant.",
+            "H2": "Exactly six characters including the decimal point.",
+            "H3": "No trailing zeros or extra digits."
+        },
+        {
+            "id": 13,
+            "target": "New York, NY",
+            "H1": "City and U.S. state abbreviation in postal style.",
+            "H2": "Include a comma followed by a single space.",
+            "H3": "Use the two-letter state code in uppercase."
+        },
+        {
+            "id": 14,
+            "target": "ready set go",
+            "H1": "A three-word sequence with unusual spacing.",
+            "H2": "Use two spaces between each pair of words.",
+            "H3": "All lowercase; no punctuation."
+        },
+        {
+            "id": 15,
+            "target": "ERROR_CODE_404",
+            "H1": "An uppercase identifier for a missing resource.",
+            "H2": "Include underscores and end with three digits.",
+            "H3": "Digits should be 4-0-4."
+        },
+        {
+            "id": 16,
+            "target": "\"It's fine,\" she said.",
+            "H1": "A quoted clause with a contraction and an internal comma.",
+            "H2": "Use straight double quotes and place the comma inside the closing quote.",
+            "H3": "End the sentence with a period after the attribution."
+        },
+        {
+            "id": 17,
+            "target": "[a, b, c]",
+            "H1": "A bracketed list of three letters with comma-space separators.",
+            "H2": "Use square brackets and a single space after each comma.",
+            "H3": "No extra spaces before the closing bracket."
+        },
+        {
+            "id": 18,
+            "target": "key:value;count=3",
+            "H1": "A config-like line combining colon and equals notation.",
+            "H2": "No spaces anywhere; use a semicolon to separate parts.",
+            "H3": "The second part assigns the number three."
+        },
+        {
+            "id": 19,
+            "target": "1,234,567",
+            "H1": "A seven-digit number with comma separators every three digits.",
+            "H2": "No spaces anywhere; use English-style commas.",
+            "H3": "Don't add a decimal or units."
+        },
+        {
+            "id": 20,
+            "target": "The quick brown fox jumps over the lazy dog.",
+            "H1": "A pangram containing every letter of the English alphabet.",
+            "H2": "Exact casing and punctuation; ends with a period.",
+            "H3": "Don't alter articles or word order."
+        }
+    ]
+}
+    
+    
+    
+    

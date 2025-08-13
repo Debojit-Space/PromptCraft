@@ -1,0 +1,205 @@
+{
+    "targets": [
+      {
+        "id": 1,
+        "difficulty": 1,
+        "target": "Paris",
+        "exemplars": [
+          "Reply with the name of France’s capital city only, no punctuation or extra words.",
+          "Output only the single proper noun that answers: “What city is the seat of government of France?”",
+          "Produce exactly the city commonly called the “City of Light,” with correct capitalization and nothing else."
+        ]
+      },
+      {
+        "id": 2,
+        "difficulty": 1,
+        "target": "apple",
+        "exemplars": [
+          "Output a single lowercase word naming a common red or green fruit often used in pies; no punctuation.",
+          "Provide the singular, lowercase name of the fruit associated with orchards and cider. One word only.",
+          "Return the lowercase English name of a fruit that keeps the doctor away; no extra text."
+        ]
+      },
+      {
+        "id": 3,
+        "difficulty": 2,
+        "target": "Mount Everest",
+        "exemplars": [
+          "Output only the proper noun that names Earth’s tallest mountain above sea level; exact capitalization.",
+          "Provide the two-word name of the mountain on the Nepal–China border with the highest summit.",
+          "Return the exact English name used to refer to the highest peak in the Himalayas, nothing else."
+        ]
+      },
+      {
+        "id": 4,
+        "difficulty": 2,
+        "target": "open the door",
+        "exemplars": [
+          "Output a three-word imperative phrase meaning to unfasten and move a hinged barrier; all lowercase, no punctuation.",
+          "Provide the exact command that instructs someone to allow entry by moving a hinged panel; three words, lowercase.",
+          "Return an imperative phrase (3 tokens) that requests access; keep letters lowercase and include spaces precisely."
+        ]
+      },
+      {
+        "id": 5,
+        "difficulty": 3,
+        "target": "Let’s go!",
+        "exemplars": [
+          "Output a two-word colloquial encouragement followed by an exclamation; include an apostrophe after “Let”.",
+          "Provide the exact short phrase urging immediate action, using correct punctuation and casing.",
+          "Return the phrase commonly shouted before starting; word one has an apostrophe-s; end with “!”."
+        ]
+      },
+      {
+        "id": 6,
+        "difficulty": 4,
+        "target": "C@t-5!",
+        "exemplars": [
+          "Output exactly this pattern: uppercase C, at symbol, lowercase t, hyphen, digit 5, exclamation. No spaces or extras.",
+          "Return a 6-character string: [C][@][t][-][5][!]. Output that exact sequence only.",
+          "Produce the precise symbol sequence described; do not explain or add any characters."
+        ]
+      },
+      {
+        "id": 7,
+        "difficulty": 4,
+        "target": "12:34 PM",
+        "exemplars": [
+          "Output a time in 12-hour format with a space and uppercase meridiem: one-two colon three-four space P M; exactly that.",
+          "Return the midday time that is 26 minutes before 1 PM, with uppercase meridiem and spacing as shown.",
+          "Provide the exact clock reading consisting of two digits, colon, two digits, space, and the uppercase letters P and M."
+        ]
+      },
+      {
+        "id": 8,
+        "difficulty": 5,
+        "target": "2025-08-10",
+        "exemplars": [
+          "Output a date in ISO format: four-digit year, hyphen, two-digit month, hyphen, two-digit day for August 10, 2025.",
+          "Return the ISO date for 10th of August in the year twenty twenty-five; no spaces or extra text.",
+          "Provide YYYY-MM-DD for the 10th day of the 8th month, 2025."
+        ]
+      },
+      {
+        "id": 9,
+        "difficulty": 5,
+        "target": "\"hello\"",
+        "exemplars": [
+          "Output a single lowercase greeting wrapped in standard ASCII straight double quotes; exactly five letters inside.",
+          "Provide a lowercase salutation and surround it with quotation marks; no added spaces or punctuation outside.",
+          "Return a greeting in quotes using only ASCII characters; ensure inner text is lowercase and five letters long."
+        ]
+      },
+      {
+        "id": 10,
+        "difficulty": 6,
+        "target": "A—B",
+        "exemplars": [
+          "Output the capital letter A, then an em dash (U+2014), then capital B; no spaces.",
+          "Return exactly A followed by a long dash (not hyphen), followed by B; ensure the dash is the em dash character.",
+          "Provide a three-character sequence: uppercase A, em dash, uppercase B, with no surrounding whitespace."
+        ]
+      },
+      {
+        "id": 11,
+        "difficulty": 6,
+        "target": "São Paulo",
+        "exemplars": [
+          "Output the exact name of Brazil’s largest city by population, including the correct diacritic on the first word.",
+          "Return the city name with a tilde on the “a” in the first word and a space before the second word; correct capitalization.",
+          "Provide the proper noun for the largest city in the Southeast Region of Brazil, with accurate accent marks."
+        ]
+      },
+      {
+        "id": 12,
+        "difficulty": 6,
+        "target": "3.14159",
+        "exemplars": [
+          "Output the value of pi rounded to five decimal places, without units or additional text.",
+          "Return the common six-character decimal approximation of the ratio of a circle’s circumference to its diameter.",
+          "Provide pi truncated after five digits beyond the decimal point; do not add context."
+        ]
+      },
+      {
+        "id": 13,
+        "difficulty": 7,
+        "target": "New York, NY",
+        "exemplars": [
+          "Output a U.S. city and state abbreviation separated by comma-space for the most populous city in that country.",
+          "Return the standard postal-style city and state format for the city nicknamed “The Big Apple.”",
+          "Provide the exact string that pairs the largest U.S. city with its two-letter state code, including punctuation and spacing."
+        ]
+      },
+      {
+        "id": 14,
+        "difficulty": 7,
+        "target": "ready  set  go",
+        "exemplars": [
+          "Output three lowercase words separated by exactly two spaces between each pair; no punctuation.",
+          "Return the sequence “ready␠␠set␠␠go” where ␠ denotes a space; include exactly two spaces between words.",
+          "Provide a three-word cheer with double spaces between tokens; lowercase only."
+        ]
+      },
+      {
+        "id": 15,
+        "difficulty": 7,
+        "target": "ERROR_CODE_404",
+        "exemplars": [
+          "Output a single uppercase token made of letters, an underscore, digits, and underscores indicating HTTP not found.",
+          "Return the exact identifier for a common client error where the resource is missing; uppercase, underscores preserved.",
+          "Provide the uppercase code-like label that ends with the digits four-zero-four and includes underscores."
+        ]
+      },
+      {
+        "id": 16,
+        "difficulty": 8,
+        "target": "\"It’s fine,\" she said.",
+        "exemplars": [
+          "Output a sentence consisting of an opening straight double quote, a contraction with apostrophe, a comma inside the quotes, space, then she said, ending with a period.",
+          "Return a quoted phrase containing an apostrophe and an internal comma, followed by attribution; use straight quotes.",
+          "Provide the exact sentence where a woman speaks the words it is acceptable, with comma placement inside the quotes."
+        ]
+      },
+      {
+        "id": 17,
+        "difficulty": 8,
+        "target": "[a, b, c]",
+        "exemplars": [
+          "Output a bracketed, comma-and-space separated list of three lowercase letters a through c; include square brackets.",
+          "Return an array-like string with three items: a, b, and c, with a space after each comma; no extra spaces.",
+          "Provide an ASCII string of an ordered trio of letters enclosed in square brackets, with proper comma spacing."
+        ]
+      },
+      {
+        "id": 18,
+        "difficulty": 9,
+        "target": "key:value;count=3",
+        "exemplars": [
+          "Output a single-line configuration string with a colon after key, semicolon between fields, equals sign assigning three to count; no spaces.",
+          "Return two fields joined by a semicolon: first a mapping using colon, then a name-value pair using equals, with three as the value.",
+          "Provide a concise config-like line combining a colon and an equals symbol as described; ensure no whitespace."
+        ]
+      },
+      {
+        "id": 19,
+        "difficulty": 9,
+        "target": "1,234,567",
+        "exemplars": [
+          "Output a seven-digit number formatted with commas separating thousands in English style; no spaces or extra text.",
+          "Return the integer just over 1.2 million with group separators every three digits, using commas.",
+          "Provide the standard U.S. numeric formatting for one million two hundred thirty-four thousand five hundred sixty-seven."
+        ]
+      },
+      {
+        "id": 20,
+        "difficulty": 10,
+        "target": "The quick brown fox jumps over the lazy dog.",
+        "exemplars": [
+          "Output the classic pangram with exact casing and punctuation; include the final period.",
+          "Return the sentence that contains every letter of the English alphabet, starting with “The” and ending with a period.",
+          "Provide the well-known pangram mentioning a speedy canine-like animal and a sleepy domesticated one, with precise wording."
+        ]
+      }
+    ]
+}
+  

@@ -1,0 +1,13 @@
+1. use the same ui design as in image promptcraftui1.png, only the design not the content
+2. Inside the data folder, there is quetions.json which has the set of questions for user. hints.json has the hints for each question. Hide the hint initially, on click on hint, show it to user, same for other 2 hints
+3. validator.js file validates the output from the llm model
+4. anitcheat.js validates the input prompt before its send to llm model
+5. scoring.txt contains scoring instructions
+6. system_instructions contain the system instruction to be sent to model
+
+_______________________________
+
+Some changes in ui
+1. remove the examplers section
+2. intial score should be 0
+3. Replace "Start by crafting a prompt to get the AI to output the target!" with the value in target field in questions.json. Also guide the user that its the output that the user needs to generate through prompt. Also mention that, user cant use the exact word or sentence in the prompt
