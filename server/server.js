@@ -37,11 +37,11 @@ app.get('/api/current-question', (req, res) => {
     return res.status(404).json({ error: 'Question not found' });
   }
   
-  // Return question without target (for security)
   res.json({
     id: question.id,
     difficulty: question.difficulty,
     exemplars: question.exemplars,
+    target: question.target,
     hints: {
       H1: hints.H1,
       H2: hints.H2,

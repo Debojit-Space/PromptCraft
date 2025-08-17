@@ -7,7 +7,8 @@ export default function Application() {
   const [gameHistory, setGameHistory] = useState([]);
   const [promptsUsed, setPromptsUsed] = useState(0);
   const [hintsUsed, setHintsUsed] = useState(0);
-  const [score, setScore] = useState(100);
+  const [score, setScore] = useState(0);
+  const [cumulativeScore, setCumulativeScore] = useState(0); // total score across questions
   const [gameWon, setGameWon] = useState(false);
   const [showHints, setShowHints] = useState({ H1: false, H2: false, H3: false });
   const [loading, setLoading] = useState(false);
@@ -45,17 +46,17 @@ export default function Application() {
     setGameHistory([]);
     setPromptsUsed(0);
     setHintsUsed(0);
-    setScore(100);
+    setScore(0);
     setGameWon(false);
     setShowHints({ H1: false, H2: false, H3: false });
   };
 
   const handleSubmit = async () => {
     if (!userInput.trim() || !currentQuestion) return;
-    
+
     setLoading(true);
     setPromptsUsed(prev => prev + 1);
-    
+
     try {
       const response = await fetch('http://localhost:3001/api/generate', {
         method: 'POST',
@@ -67,41 +68,56 @@ export default function Application() {
           questionId: currentQuestionId
         }),
       });
-      
+
       const data = await response.json();
-      
+
       if (data.error) {
-        setGameHistory(prev => [...prev, { 
-          type: 'error', 
-          content: `Error: ${data.error}`, 
-          details: data.reason 
+        setGameHistory(prev => [...prev, {
+          type: 'error',
+          content: `Error: ${data.error}`,
+          details: data.reason
         }]);
       } else {
         const validation = data.validation;
         const isCorrect = validation.pass;
-        
+
         if (isCorrect) {
           setGameWon(true);
-          setScore(prev => Math.max(prev - (promptsUsed * 5) - (hintsUsed * 10), 0));
+          // we just called setPromptsUsed(prev => prev + 1) above,
+          // so the current attempt count for this submission is:
+          const attemptsThisSubmit = promptsUsed + 1;
+
+          // penalties only for extra prompts beyond the first
+          const extraPrompts = Math.max(attemptsThisSubmit - 1, 0);
+
+          const difficulty = Number(currentQuestion.difficulty) || 1;
+          const raw = 10 - (hintsUsed * 2) - (extraPrompts * 1);
+          const questionScore = Math.max(raw, 0) * difficulty;
+
+          // set per-question score
+          setScore(questionScore);
+
+          // accumulate total score
+          setCumulativeScore(prev => prev + questionScore);
         }
-        
-        setGameHistory(prev => [...prev, 
-          { type: 'question', content: userInput.trim() },
-          { 
-            type: 'answer', 
-            content: data.output,
-            validation: validation,
-            isCorrect: isCorrect
-          }
+
+        setGameHistory(prev => [...prev,
+        { type: 'question', content: userInput.trim() },
+        {
+          type: 'answer',
+          content: data.output,
+          validation: validation,
+          isCorrect: isCorrect
+        }
         ]);
       }
     } catch (error) {
-      setGameHistory(prev => [...prev, { 
-        type: 'error', 
-        content: 'Network error occurred. Please try again.' 
+      setGameHistory(prev => [...prev, {
+        type: 'error',
+        content: 'Network error occurred. Please try again.'
       }]);
     }
-    
+
     setUserInput('');
     setLoading(false);
   };
@@ -146,7 +162,7 @@ export default function Application() {
             {/* Header */}
             <div className="text-center mb-6">
               <h1 className="text-4xl font-bold mb-2">PromptCraft</h1>
-              <p className="text-gray-600 text-lg">Craft the perfect prompt to get the exact output from the AI model.</p>
+              {/* <p className="text-gray-600 text-lg">Craft the perfect prompt to get the exact output from the AI model.</p> */}
             </div>
 
             {/* Question Info */}
@@ -154,16 +170,31 @@ export default function Application() {
               <div className="text-center mb-4">
                 <span className="text-lg font-semibold">Question {currentQuestion.id} / {questions.length} • Difficulty: {currentQuestion.difficulty}</span>
               </div>
-              
+
+              {/* Target */}
+              <div className="neu-card p-4 rounded-2xl mb-4 text-center">
+                <span className="inline-block bg-blue-600 text-white px-2 py-1 rounded text-sm font-medium mb-2">
+                  Question
+                </span>
+                <p className="text-gray-700 text-sm mb-2">
+                  Your goal is to craft a prompt that makes the AI output the following target:
+                </p>
+                <p className="text-2xl font-bold text-gray-900">{currentQuestion.target}</p>
+                <p className="text-red-600 text-sm mt-2 font-medium">
+                  ⚠️ Important: Your prompt must <strong>not</strong> include the word/sentence "{currentQuestion.target}" directly.
+                </p>
+              </div>
+
+
               {/* Exemplars */}
-              <div className="neu-card p-4 rounded-2xl mb-4">
+              {/* <div className="neu-card p-4 rounded-2xl mb-4">
                 <span className="inline-block bg-blue-600 text-white px-2 py-1 rounded text-sm font-medium mb-2">Exemplars</span>
                 <div className="space-y-2">
                   {currentQuestion.exemplars.map((exemplar, index) => (
                     <p key={index} className="text-gray-700 text-sm">{exemplar}</p>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Game History */}
@@ -175,16 +206,15 @@ export default function Application() {
               ) : (
                 <div className="space-y-4">
                   {gameHistory.map((item, index) => (
-                    <div key={index} className={`p-3 rounded-lg ${
-                      item.type === 'question' ? 'bg-blue-50 border-l-4 border-blue-400' :
+                    <div key={index} className={`p-3 rounded-lg ${item.type === 'question' ? 'bg-blue-50 border-l-4 border-blue-400' :
                       item.type === 'answer' ? (item.isCorrect ? 'bg-green-50 border-l-4 border-green-400' : 'bg-red-50 border-l-4 border-red-400') :
-                      item.type === 'error' ? 'bg-red-50 border-l-4 border-red-400' :
-                      'bg-gray-50'
-                    }`}>
+                        item.type === 'error' ? 'bg-red-50 border-l-4 border-red-400' :
+                          'bg-gray-50'
+                      }`}>
                       <div className="font-medium text-sm text-gray-600 mb-1">
                         {item.type === 'question' ? 'Your prompt:' :
-                         item.type === 'answer' ? (item.isCorrect ? 'Correct output!' : 'Incorrect output') :
-                         item.type === 'error' ? 'Error' : ''}
+                          item.type === 'answer' ? (item.isCorrect ? 'Correct output!' : 'Incorrect output') :
+                            item.type === 'error' ? 'Error' : ''}
                       </div>
                       <div className="text-gray-800 mb-2">{item.content}</div>
                       {item.type === 'answer' && !item.isCorrect && item.validation && (
@@ -225,30 +255,36 @@ export default function Application() {
                 onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
                 disabled={loading}
               />
-              <button 
+              <button
                 onClick={handleSubmit}
                 disabled={loading || !userInput.trim()}
-                className="px-6 py-3 bg-blue-600 text-white rounded-2xl neu-btn hover:bg-blue-700 transition-colors disabled:opacity-50"
+                className="px-6 py-3 rounded-2xl border border-blue-600 
+                  bg-blue-600 text-white 
+                  transition-colors 
+                  hover:bg-white hover:text-blue-600 border-white
+                  disabled:opacity-50"
               >
                 {loading ? 'Sending...' : 'Send'}
               </button>
+
+
             </div>
 
             {/* Hint Buttons */}
             <div className="flex gap-3 mb-4">
-              <button 
+              <button
                 onClick={() => useHint('H1')}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
               >
                 Hint 1
               </button>
-              <button 
+              <button
                 onClick={() => useHint('H2')}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
               >
                 Hint 2
               </button>
-              <button 
+              <button
                 onClick={() => useHint('H3')}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
               >
@@ -294,6 +330,10 @@ export default function Application() {
                 <span>Score:</span>
                 <span className="font-semibold">{score}</span>
               </div>
+              <div className="flex justify-between">
+                <span>Cumulative Score:</span>
+                <span className="font-semibold">{cumulativeScore}</span>
+              </div>
             </div>
 
             {/* Question Navigation */}
@@ -302,11 +342,10 @@ export default function Application() {
                 <button
                   key={question.id}
                   onClick={() => fetchCurrentQuestion(question.id)}
-                  className={`p-2 rounded-lg text-sm font-medium transition-colors ${
-                    question.id === currentQuestionId 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
+                  className={`p-2 rounded-lg text-sm font-medium transition-colors ${question.id === currentQuestionId
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
                 >
                   {question.id}
                 </button>
@@ -315,21 +354,21 @@ export default function Application() {
 
             {/* Action Buttons */}
             <div className="space-y-3">
-              <button 
+              <button
                 onClick={resetGame}
                 className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
               >
                 Restart Question
               </button>
               <div className="flex gap-2">
-                <button 
+                <button
                   onClick={previousQuestion}
                   disabled={currentQuestionId <= 1}
                   className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
                 >
                   Previous
                 </button>
-                <button 
+                <button
                   onClick={nextQuestion}
                   disabled={currentQuestionId >= questions.length}
                   className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
@@ -348,10 +387,10 @@ export default function Application() {
                 <span className="text-blue-600 mr-2">•</span>
                 Be specific about the exact format you want.
               </li>
-              <li className="flex items-start">
+              {/* <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
                 Use the exemplars as a guide for your prompt style.
-              </li>
+              </li> */}
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
                 Pay attention to case, punctuation, and spacing.
