@@ -1,0 +1,10 @@
+name = "promptcraft-backend"
+main = "server.js"
+compatibility_date = "2025-08-18"
+
+[vars]
+MODEL_PROVIDER = "openai"
+OPENAI_API_KEY = "your-openai-key-here"
+OPENAI_MODEL = "gpt-5-nano"
+HF_API_URL = ""
+HF_API_KEY = ""
