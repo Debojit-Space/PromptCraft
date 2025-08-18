@@ -8,3 +8,11 @@ OPENAI_API_KEY = "your-openai-key-here"
 OPENAI_MODEL = "gpt-5-nano"
 HF_API_URL = ""
 HF_API_KEY = ""
+
+# wrangler.toml (wrangler v3.88.0^)
+[observability.logs]
+enabled = false
+
+
+
+

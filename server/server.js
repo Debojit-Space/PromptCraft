@@ -20,7 +20,7 @@ function withCors(response) {
 
 export default {
   async fetch(request, env, ctx) {
-    const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY });
+    const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY, baseURL: "https://gateway.ai.cloudflare.com/v1/9e20a2d23e8227768214ace8238988ed/promptcraft-ai-gateway/openai" });
     const url = new URL(request.url);
 
     // Handle CORS preflight
@@ -82,7 +82,7 @@ export default {
       const systemPrompt = systemInstructions.replace("System instructions (to model):\n\n", "");
 
       const completion = await openai.chat.completions.create({
-        model: env.OPENAI_MODEL || "gpt-5-nano",
+        model: env.OPENAI_MODEL || "gpt-4o-mini",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: prompt }

@@ -1,5 +1,5 @@
 const dev = {
-    baseUrl: "http://localhost:3001",
+    baseUrl: "http://127.0.0.1:8787",
   };
   
   const prod = {
