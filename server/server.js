@@ -7,11 +7,32 @@ import questionsData from '../data/questions.json' assert { type: 'json' };
 import hintsData from '../data/hints.json' assert { type: 'json' };
 import systemInstructions from '../data/system_instructions.txt' assert { type: 'text' };
 import scoringInstructions from '../data/scoring.txt' assert { type: 'text' };
+function withCors(response) {
+  const newHeaders = new Headers(response.headers);
+  newHeaders.set("Access-Control-Allow-Origin", "*"); // or restrict to http://localhost:3000 in dev
+  newHeaders.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  newHeaders.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  return new Response(response.body, {
+    status: response.status,
+    headers: newHeaders
+  });
+}
 
 export default {
   async fetch(request, env, ctx) {
     const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY });
     const url = new URL(request.url);
+
+    // Handle CORS preflight
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+      });
+    }
 
     // GET /api/current-question?id=1
     if (url.pathname === "/api/current-question" && request.method === "GET") {
@@ -20,15 +41,15 @@ export default {
       const hints = hintsData.hints.find(h => h.id === questionId);
 
       if (!question || !hints) {
-        return new Response(JSON.stringify({ error: "Question not found" }), { status: 404 });
+        return withCors(new Response(JSON.stringify({ error: "Question not found" }), { status: 404 }));
       }
-      return Response.json({
+      return withCors(Response.json({
         id: question.id,
         difficulty: question.difficulty,
         exemplars: question.exemplars,
         target: question.target,
         hints: { H1: hints.H1, H2: hints.H2, H3: hints.H3 }
-      });
+      }));
     }
 
     // GET /api/questions
@@ -37,7 +58,7 @@ export default {
         id: q.id,
         difficulty: q.difficulty
       }));
-      return Response.json({ questions });
+      return withCors(Response.json({ questions }));
     }
 
     // POST /api/generate
@@ -45,17 +66,17 @@ export default {
       const body = await request.json();
       const { prompt, questionId } = body || {};
       if (!prompt || !questionId) {
-        return new Response(JSON.stringify({ error: "prompt and questionId are required" }), { status: 400 });
+        return withCors(new Response(JSON.stringify({ error: "prompt and questionId are required" }), { status: 400 }));
       }
 
       const question = questionsData.targets.find(q => q.id === parseInt(questionId));
       if (!question) {
-        return new Response(JSON.stringify({ error: "Question not found" }), { status: 404 });
+        return withCors(new Response(JSON.stringify({ error: "Question not found" }), { status: 404 }));
       }
 
       const anticheatResult = promptAllowed(prompt, question.target, question.difficulty);
       if (!anticheatResult.ok) {
-        return new Response(JSON.stringify({ error: "Prompt not allowed", reason: anticheatResult.reason }), { status: 400 });
+        return withCors(new Response(JSON.stringify({ error: "Prompt not allowed", reason: anticheatResult.reason }), { status: 400 }));
       }
 
       const systemPrompt = systemInstructions.replace("System instructions (to model):\n\n", "");
@@ -73,14 +94,14 @@ export default {
       const output = completion.choices[0].message.content.trim();
       const validation = validateOutput(output, question.target, Presets.Intermediate);
 
-      return Response.json({ output, validation, target: question.target });
+      return withCors(Response.json({ output, validation, target: question.target }));
     }
 
     // GET /api/scoring
     if (url.pathname === "/api/scoring" && request.method === "GET") {
-      return Response.json({ instructions: scoringInstructions });
+      return withCors(Response.json({ instructions: scoringInstructions }));
     }
 
-    return new Response("Not found", { status: 404 });
+    return withCors(new Response("Not found", { status: 404 }));
   }
 };

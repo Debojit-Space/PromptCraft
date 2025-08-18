@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { config } from "./config";
+
 
 export default function Application() {
   const [currentQuestion, setCurrentQuestion] = useState(null);
@@ -22,7 +24,7 @@ export default function Application() {
 
   const fetchQuestions = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/questions');
+      const response = await fetch(`${config.baseUrl}/api/questions`);
       const data = await response.json();
       setQuestions(data.questions);
     } catch (error) {
@@ -32,7 +34,7 @@ export default function Application() {
 
   const fetchCurrentQuestion = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/current-question?id=${id}`);
+      const response = await fetch(`${config.baseUrl}/api/current-question?id=${id}`);
       const data = await response.json();
       setCurrentQuestion(data);
       setCurrentQuestionId(id);
@@ -58,7 +60,7 @@ export default function Application() {
     setPromptsUsed(prev => prev + 1);
 
     try {
-      const response = await fetch('http://localhost:3001/api/generate', {
+      const response = await fetch(`${config.baseUrl}/api/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
