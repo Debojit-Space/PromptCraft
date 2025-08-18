@@ -15,6 +15,7 @@
     "openai": "^4.3.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "wrangler": "^4.30.0"
   }
 }
